@@ -23,12 +23,15 @@ try:
     #авторизация
     driver.get(sbis_site)
     sleep(2)
+    saby_title = 'Saby вход в личный кабинет системы'
+    assert driver.title == saby_title
     driver.maximize_window()
     login = driver.find_element(By.CSS_SELECTOR, '.controls-Field')
     login.send_keys('Леший', Keys.ENTER)
     password = driver.find_element(By.CSS_SELECTOR, '[type="password"]')
     password.send_keys('Леший123', Keys.ENTER)
     sleep(3)
+    assert driver.current_url == 'https://fix-online.sbis.ru/'
 
     #Контакты-контакты
     contact_1 = driver.find_elements(By.CSS_SELECTOR,'[data-qa=NavigationPanels-Accordion__title]')
@@ -37,6 +40,7 @@ try:
     contact_2 = driver.find_element(By.CSS_SELECTOR, '.NavigationPanels-SubMenu__headTitle')
     contact_2.click()
     sleep(2)
+    assert driver.current_url == 'https://fix-online.sbis.ru/page/dialogs'
 
 
     #Выбор получателя
@@ -49,6 +53,8 @@ try:
     add_emp = driver.find_element(By.CSS_SELECTOR, '.msg-addressee-selector__addressee')
     add_emp.click()
     sleep(1)
+    recipient = driver.find_elements(By.CSS_SELECTOR, '.msg-entity-plain-text')
+    assert recipient[0].text == 'Леший Лесной'
 
     #Отправка сообщения и проверка его наличия
     textbox = driver.find_element(By.CSS_SELECTOR, '.textEditor_slate_Field')
